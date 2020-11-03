@@ -1,0 +1,11 @@
+{
+    "routes": [
+        {
+            "src": "/images.*",
+            "headers": {
+                "Cache-Control": "max-age=3600"
+            },
+            "continue": true
+        }
+    ]
+}

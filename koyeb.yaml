@@ -1,0 +1,24 @@
+functions:
+  - name: image-search
+    runtime: nodejs14
+    handler: koyeb-functions/image-search.handler
+    env:
+      AWS_ACCESS_KEY:
+        value_from_secret: aws-reko-access-key
+      AWS_SECRET_KEY:
+        value_from_secret: aws-reko-secret-key
+      ALGOLIA_APP_ID:
+        value_from_secret: algolia-app-id
+      ALGOLIA_API_KEY:
+        value_from_secret: algolia-api-key
+      ALGOLIA_INDEX:
+        value_from_secret: algolia-index
+    volumes:
+      - store: image-search-demo-app
+    events:
+      - cloudevent:
+          expression: |
+            event.source == "koyeb.com/gateway" &&
+            event.subject == "image-search-demo-app" &&
+            event.type.matches("s3:ObjectCreated:.*") &&
+            data.object.key.matches("([^\\s]+(\\.(?i)(jpe?g|png))$)")
