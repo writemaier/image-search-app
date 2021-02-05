@@ -14,11 +14,11 @@ functions:
       ALGOLIA_INDEX:
         value_from_secret: algolia-index
     volumes:
-      - store: image-search-demo-app
+      - store: image-search-app-pana
     events:
       - cloudevent:
           expression: |
             event.source == "koyeb.com/gateway" &&
-            event.subject == "image-search-demo-app" &&
+            event.subject == "image-search-app-pana" &&
             event.type.matches("s3:ObjectCreated:.*") &&
             data.object.key.matches("([^\\s]+(\\.(?i)(jpe?g|png))$)")
